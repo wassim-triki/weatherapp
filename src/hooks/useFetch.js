@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const useFetch = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   const getTempData = (data) => ({
     tempC: data?.current?.temp_c,
@@ -16,10 +16,10 @@ const useFetch = () => {
     windMPH: data?.current?.wind_mph,
   });
   const getLocationData = (data) => ({
-    name: data?.location.name,
-    region: data?.location.region,
-    country: data?.location.country,
-    localTime: data?.location.localtime,
+    name: data?.location?.name,
+    region: data?.location?.region,
+    country: data?.location?.country,
+    localTime: data?.location?.localtime,
   });
 
   const fetchData = async (url) => {
@@ -27,14 +27,14 @@ const useFetch = () => {
       setLoading(true);
       setError(false);
       const response = await fetch(url);
-      setError(response.status >= 400 && "Location not found.");
       const data = await response.json();
+      console.log(response.status);
+      if (data?.error) throw new Error(data?.error.message);
       const formattedData = {
         temperature: getTempData(data),
         location: getLocationData(data),
       };
       setData(formattedData);
-      console.log(formattedData);
     } catch (err) {
       setError(err.message);
     } finally {

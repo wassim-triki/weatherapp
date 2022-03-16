@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 
 const Form = ({ handleSubmit }) => {
-  const [location, setLocation] = useState("Berlin");
-
+  const [location, setLocation] = useState("Kelibia");
   return (
     <form
-      className=" flex justify-center items-center mt-12"
+      className=" flex justify-center items-center mt-12 "
       onSubmit={(e) => handleSubmit(e, location)}
     >
       <div className="rounded-full bg-white flex items-center focus-within:ring-2 ring-highlight ring-offset-1 px-2 w-4/5 sm:w-2/4 lg:w-1/4 justify-between ">
         <input
-          className="h-full rounded-full p-2 outline-none font-semibold text-gray-600"
+          className="w-full h-full rounded-full p-2 outline-none font-semibold text-gray-600"
           type="text"
           placeholder="Exp: Berlin"
           onChange={(e) => setLocation(e.target.value.trim())}
