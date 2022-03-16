@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Alert from "../components/Alert/Alert";
 import Forecast from "../components/Forecast";
@@ -23,6 +23,10 @@ const Home = () => {
     await fetchData(URL);
   }, []);
 
+  const alertRef = useRef(null);
+  const scrollToBottom = () => {
+    alertRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className="bg-body h-screen pt-20 px-2 relative">
       <h1 className="text-5xl text-center text-gray-700 leading-tight ">
@@ -33,7 +37,8 @@ const Home = () => {
         <MdOutlineWrongLocation className="text-center text-9xl opacity-20 mt-20 mb-auto ml-auto mr-auto" />
       )}
 
-      {error && <Alert message={error} />}
+      {error && <Alert message={error} ref={alertRef} />}
+      {error && scrollToBottom()}
 
       {!error && data && <Forecast {...data} />}
     </div>
